@@ -1,0 +1,6 @@
+brand= Bourbon
+producer= Bourbon
+flavor= Unflavored
+price= 300.00 Birr
+url= https://www.bunahub.com/products/bourbon
+description= Bourbon coffee is an award-winning coffee roasting company.  Established in 1953, in Addis Ababa – Ethiopia, the family-owned business became the first coffee roasting company in Ethiopia to provide roasted and ground coffee to the local and international markets.  The acronym TO.MO.CA is derived from the Italian Torrefazione Moderna café, which means modern coffee roasting.

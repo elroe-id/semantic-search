@@ -1,0 +1,7 @@
+brand= Tomoca
+producer= Tomoca
+flavor= Unflavored
+price= 500.00 Birr
+url= https://www.bunahub.com/products/tomoca
+description= Tomoca coffee is an award-winning coffee roasting company.  Established in 1953, in Addis Ababa – Ethiopia, the family-owned business became the first coffee roasting company in Ethiopia to provide roasted and ground coffee to the local and international markets.  The acronym TO.MO.CA is derived from the Italian Torrefazione Moderna café, which means modern coffee roasting.
+      Tomoca coffee is known as the gold standard of Ethiopian coffee; with an unmatched delivery of the best quality coffee from roast to cup.  We are a member of the Ethiopian Commodity Exchange (ECX) and export our coffee to Sweden, Germany, USA, China, Japan and other countries across the globe.
