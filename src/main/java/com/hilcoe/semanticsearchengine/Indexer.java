@@ -3,6 +3,7 @@ package com.hilcoe.semanticsearchengine;
 
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.SchemaDO;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -25,35 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static org.apache.jena.enhanced.BuiltinPersonalities.model;
-import static org.apache.jena.reasoner.rulesys.impl.WrappedReasonerFactory.schemaURL;
 
 @Service
 public class Indexer {
     private final String dataDir="./dataDir";
     private final String indexDir = "./indexDir";
-//    private String indexPath, dataSource;
-//
-//    public Indexer(String indexPath, String dataSource) {
-//        this.indexPath = indexPath;
-//        this.dataSource = dataSource;
-//    }
-
-//    public String getIndexPath() {
-//        return indexPath;
-//    }
-//
-//    public void setIndexPath(String indexPath) {
-//        this.indexPath = indexPath;
-//    }
-//
-//    public String getDataSource() {
-//        return dataSource;
-//    }
-//
-//    public void setDataSource(String dataSource) {
-//        this.dataSource = dataSource;
-//    }
 
     public void createIndex() throws IOException {
         List<File> results = new ArrayList<File>();
@@ -116,6 +93,103 @@ public class Indexer {
 //        doc.add(new Field("rs",getRichSnippets(mfile),fieldType));
         return doc;
     }
+
+    private String getRichSnippets(String fpath){
+        String snippets = "";
+
+        // Load model from file
+        Model model = ModelFactory.createDefaultModel();
+        model.read(fpath);
+
+        // Get the main subject
+        Resource mainSubject = null;
+        Property schemaAbout = SchemaDO.about;
+        StmtIterator stmts = model.listStatements(null, schemaAbout, (RDFNode)null);
+        if (stmts.hasNext()) {
+            Statement stmt = stmts.nextStatement();
+            mainSubject = stmt.getSubject();
+        }
+
+        if (mainSubject == null) {
+            return snippets;
+        }
+
+        // Get type
+        Resource type = null;
+        stmts = model.listStatements(mainSubject, RDF.type, (RDFNode)null);
+        if (stmts.hasNext()) {
+            Statement stmt = stmts.nextStatement();
+            type = stmt.getResource();
+        }
+
+        if (type != null) {
+            snippets += type.getLocalName() + ": ";
+        }
+
+        // Get description
+        Literal description = null;
+        Property schemaDescription = SchemaDO.description;
+        stmts = model.listStatements(mainSubject, schemaDescription, (RDFNode)null);
+
+        if (stmts.hasNext()) {
+            Statement stmt = stmts.nextStatement();
+            description = stmt.getLiteral();
+        }
+
+        if (description != null) {
+            snippets += description.getString() + "\n";
+        }
+
+        // Get additional info
+        snippets += getAdditionalInfo(mainSubject, model);
+
+        return snippets;
+    }
+
+    private String getAdditionalInfo(Resource resource, Model model) {
+        String info = "";
+
+        StmtIterator stmts = model.listStatements(resource, (Property)null, (RDFNode)null);
+
+        while (stmts.hasNext()) {
+            Statement stmt = stmts.nextStatement();
+            Resource obj = stmt.getResource();
+            if (obj != null) {
+                info += getDescription(obj, model) + "\n";
+            }
+        }
+
+        return info;
+    }
+
+
+
+
+    private String getDescription(Resource resource, Model model) {
+        String desc = "";
+
+        StmtIterator stmts = model.listStatements(resource, RDF.type, (RDFNode)null);
+        if (stmts.hasNext()) {
+            Statement typeStmt = stmts.nextStatement();
+            Resource type = typeStmt.getResource();
+            desc = "[" + type.getLocalName() + "] ";
+        }
+
+        Property schemaName = SchemaDO.name;
+        NodeIterator nodes = model.listObjectsOfProperty(resource, schemaName);
+
+        while (nodes.hasNext()) {
+            RDFNode node = nodes.nextNode();
+            if (node.isLiteral()) {
+                Literal name = node.asLiteral();
+                desc += name.getString() + "; ";
+            }
+        }
+
+        return desc;
+    }
+
+
 
 //    private String getRichSnippets(String fpath){
 //        String richSnippets ="";
