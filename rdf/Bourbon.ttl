@@ -1,0 +1,18 @@
+@prefix schema: <http://schema.org/>.
+
+[] a schema:Product ;
+  schema:description "Bourbon coffee product " ; 
+  schema:about [
+    a schema:Brand ;
+    schema:name "Bourbon" ;
+    schema:foundingDate "1953" ;
+    schema:foundingLocation [  
+      a schema:Place ;
+      schema:name "Addis Ababa, Ethiopia" 
+    ]
+  ] ;
+  schema:detail "Bourbon coffee productBourbon coffee is an award-winning coffee roasting company. Established in 1953, in Addis Ababa – Ethiopia, the family-owned business became the first coffee roasting company in Ethiopia to provide roasted and ground coffee to the local and international markets. The acronym TO.MO.CA is derived from the Italian Torrefazione Moderna café, which means modern coffee roasting." ; 
+  
+  schema:manufacturer "Bourbon" ;
+
+  .

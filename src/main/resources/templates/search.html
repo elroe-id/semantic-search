@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Page</title>
+</head>
+<body>
+<h1>Search Page</h1>
+<form action="/search" method="GET">
+  <label for="queryString">Search Query:</label>
+  <input type="text" id="queryString" name="queryString">
+  <button type="submit">Search</button>
+</form>
+<br>
+<label for="searchFor">Searching for: </label>
+<p id="searchFor" th:text="${queryString}"></p>
+<label for="result">Search Result:</label>
+<table id="result">
+  <tr th:each="result : ${searchResult}">
+    <td>
+    <pre th:utext="${result}"></pre>
+    </td>
+  </tr>
+</table>
+<!--<input type="text" id="result" th:value="${searchResult}" rows="10" cols="50" readonly>-->
+</body>
+</html>

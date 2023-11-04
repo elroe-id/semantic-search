@@ -1,0 +1,18 @@
+@prefix schema: <http://schema.org/>.
+
+[] a schema:Product ;
+  schema:description "Tomoca coffee product" ;
+  schema:about [ 
+    a schema:Brand ;
+    schema:name "Tomoca" ;
+    schema:foundingDate "1953" ; 
+    schema:foundingLocation [
+      a schema:Place ;
+      schema:name "Addis Ababa, Ethiopia"
+    ]
+  ] ;
+  schema:detail "Tomoca coffee is an award-winning coffee roasting company. Established in 1953, in Addis Ababa – Ethiopia, the family-owned business became the first coffee roasting company in Ethiopia to provide roasted and ground coffee to the local and international markets. The acronym TO.MO.CA is derived from the Italian Torrefazione Moderna café, which means modern coffee roasting. Tomoca coffee is known as the gold standard of Ethiopian coffee; with an unmatched delivery of the best quality coffee from roast to cup. We are a member of the Ethiopian Commodity Exchange (ECX) and export our coffee to Sweden, Germany, USA, China, Japan and other countries across the globe." ;
+    
+  schema:manufacturer "Tomoca" ;
+  
+  .

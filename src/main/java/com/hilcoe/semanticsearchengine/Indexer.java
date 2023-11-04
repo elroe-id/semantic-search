@@ -18,6 +18,13 @@ import org.apache.lucene.util.Version;
 import org.springframework.stereotype.Service;
 
 
+
+import org.apache.jena.vocabulary.*;
+//import org.apache.jena.vocabulary.SchemaOrg;
+
+
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,11 +33,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static org.apache.jena.enhanced.BuiltinPersonalities.model;
+import static org.apache.jena.reasoner.rulesys.impl.WrappedReasonerFactory.schemaURL;
 
 @Service
 public class Indexer {
     private final String dataDir="./dataDir";
     private final String indexDir = "./indexDir";
+//    private String indexPath, dataSource;
+//
+//    public Indexer(String indexPath, String dataSource) {
+//        this.indexPath = indexPath;
+//        this.dataSource = dataSource;
+//    }
+
+//    public String getIndexPath() {
+//        return indexPath;
+//    }
+//
+//    public void setIndexPath(String indexPath) {
+//        this.indexPath = indexPath;
+//    }
+//
+//    public String getDataSource() {
+//        return dataSource;
+//    }
+//
+//    public void setDataSource(String dataSource) {
+//        this.dataSource = dataSource;
+//    }
 
     public void createIndex() throws IOException {
         List<File> results = new ArrayList<File>();
@@ -89,55 +120,51 @@ public class Indexer {
         doc.add(new Field("price", price, fieldType));
         doc.add(new Field("url", url, fieldType));
 
-//        String mfile = file.getAbsolutePath().replaceAll("txt","ttl");
-//        doc.add(new Field("rs",getRichSnippets(mfile),fieldType));
+        String rdfFolderPath = "./rdf/";
+        String fileName = file.getName();
+        String mfile  = rdfFolderPath + fileName.replace(".txt", ".ttl");
+
+        doc.add(new Field("rs",getRichSnippets(mfile),fieldType));
         return doc;
     }
 
-    private String getRichSnippets(String fpath){
+
+    private String getRichSnippets(String fpath) {
         String snippets = "";
 
         // Load model from file
         Model model = ModelFactory.createDefaultModel();
-        model.read(fpath);
+
+        try {
+            model.read(fpath);
+        } catch (Exception e) {
+            // Log exception
+            System.out.println("Failed to read RDF file: ");
+            return "";
+        }
 
         // Get the main subject
         Resource mainSubject = null;
-        Property schemaAbout = SchemaDO.about;
-        StmtIterator stmts = model.listStatements(null, schemaAbout, (RDFNode)null);
+        Property schemaAbout = ResourceFactory.createProperty("http://schema.org/about");
+        StmtIterator stmts = model.listStatements(null, schemaAbout, (RDFNode) null);
+
         if (stmts.hasNext()) {
             Statement stmt = stmts.nextStatement();
             mainSubject = stmt.getSubject();
         }
 
         if (mainSubject == null) {
+            System.out.println("Main subject not found.");
             return snippets;
         }
 
-        // Get type
-        Resource type = null;
-        stmts = model.listStatements(mainSubject, RDF.type, (RDFNode)null);
-        if (stmts.hasNext()) {
-            Statement stmt = stmts.nextStatement();
-            type = stmt.getResource();
-        }
-
-        if (type != null) {
-            snippets += type.getLocalName() + ": ";
-        }
-
         // Get description
-        Literal description = null;
-        Property schemaDescription = SchemaDO.description;
-        stmts = model.listStatements(mainSubject, schemaDescription, (RDFNode)null);
-
-        if (stmts.hasNext()) {
-            Statement stmt = stmts.nextStatement();
-            description = stmt.getLiteral();
-        }
-
-        if (description != null) {
-            snippets += description.getString() + "\n";
+        Property schemaDescription = ResourceFactory.createProperty("http://schema.org/description");
+        StmtIterator descriptionStmts = model.listStatements(mainSubject, schemaDescription, (RDFNode) null);
+        if (descriptionStmts.hasNext()) {
+            Statement stmt = descriptionStmts.nextStatement();
+            Literal description = stmt.getLiteral();
+            snippets += "Description: " + description.getString() + "\n";
         }
 
         // Get additional info
@@ -146,36 +173,35 @@ public class Indexer {
         return snippets;
     }
 
+
+
     private String getAdditionalInfo(Resource resource, Model model) {
         String info = "";
 
-        StmtIterator stmts = model.listStatements(resource, (Property)null, (RDFNode)null);
+        StmtIterator stmts = model.listStatements(resource, null, (RDFNode) null);
 
         while (stmts.hasNext()) {
             Statement stmt = stmts.nextStatement();
-            Resource obj = stmt.getResource();
-            if (obj != null) {
-                info += getDescription(obj, model) + "\n";
+            Property property = stmt.getPredicate();
+            RDFNode obj = stmt.getObject();
+
+            // Check if the object is a literal or a resource
+            if (obj.isLiteral()) {
+                Literal literal = obj.asLiteral();
+                info += property.getLocalName() + ": " + literal.getString() + "\n";
+            } else if (obj.isResource()) {
+                Resource nestedResource = obj.asResource();
+                info += property.getLocalName() + ": " + getDescription(nestedResource, model) + "\n";
             }
         }
 
         return info;
     }
 
-
-
-
     private String getDescription(Resource resource, Model model) {
         String desc = "";
 
-        StmtIterator stmts = model.listStatements(resource, RDF.type, (RDFNode)null);
-        if (stmts.hasNext()) {
-            Statement typeStmt = stmts.nextStatement();
-            Resource type = typeStmt.getResource();
-            desc = "[" + type.getLocalName() + "] ";
-        }
-
-        Property schemaName = SchemaDO.name;
+        Property schemaName = ResourceFactory.createProperty("http://schema.org/name");
         NodeIterator nodes = model.listObjectsOfProperty(resource, schemaName);
 
         while (nodes.hasNext()) {
@@ -191,81 +217,7 @@ public class Indexer {
 
 
 
-//    private String getRichSnippets(String fpath){
-//        String richSnippets ="";
-//        updateModel(fpath);
-//
-//        RDFNode rootSubject = null;
-//        Property pAbout = ResourceFactory.createProperty(schemaAbout);
-//        StmtIterator st = model.listStatements(null,pAbout,(RDFNode)null);
-//
-//        while(st.hasNext()){
-//            Statement statement=st.nextStatement();
-//            rootSubject = statement.getSubject();
-//            break;
-//        }
-//        if(rootSubject==null)
-//            return richSnippets;
-//
-//        Resource rootType =null;
-//        st = model.listStatements((Resource)rootSubject, RDF.type,(RDFNode)null);
-//        while(st.hasNext()){
-//            Statement statement=st.nextStatement();
-//            rootType = (Resource) statement.getObject();
-//            break;
-//        }
-//        richSnippets+=rootType.getLocalName()+": ";
-//
-//        Property pDescription = ResourceFactory.createProperty(schemaDescription);
-//        st = model.listStatements((Resource)rootSubject, pDescription,(RDFNode)null);
-//        while(st.hasNext()){
-//            Statement statement=st.nextStatement();
-//            if(statement.getObject().isLiteral()){
-//                richSnippets+=statement.getObject().asLiteral().getString()+"\n";
-//            }
-//            break;
-//        }
-//
-//        String description = "";
-//        NodeIterator nodes = model.listObjectsOfProperty(pAbout);
-//        while(nodes.hasNext()){
-//            description+="About: "+getDescription(nodes.next(),true)+"\n";
-//        }
-//
-//        richSnippets+=description;
-//        return richSnippets;
-//    }
-//
-//    private String getDescription(RDFNode node, boolean showType){
-//        String description = "";
-//        StmtIterator st = model.listStatements((Resource)node,RDF.type,(RDFNode)null);
-//        while(st.hasNext()){
-//            Statement statement=st.nextStatement();
-//            if(showType){
-//                description +="["+((Resource)(statement.getObject())).getLocalName()+"] ";
-//            }
-//            break;
-//        }
-//
-//        st=model.listStatements((Resource)node,null,(RDFNode)null);
-//
-//        while(st.hasNext()){
-//            Statement statement = st.nextStatement();
-//            if(statement.getPredicate().getURI().equalsIgnoreCase((RDF.type.getURI()))){
-//                continue;
-//            }
-//            if(statement.getPredicate().getURI().equalsIgnoreCase(schemaURL)){
-//                continue;
-//            }
-//            RDFNode objectNode = statement.getObject();
-//            if(objectNode.isLiteral()){
-//                description+=objectNode.asLiteral().getString()+";";
-//            }
-//            else{
-//                description+=getDescription(objectNode,false);
-//            }
-//        }
-//        return description.substring(0,description.length()-2);
-//    }
-
+//        return descriptionBuilder.toString();
+    //   }
 }
+
