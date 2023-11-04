@@ -1,0 +1,14 @@
+@prefix schema: <http://schema.org/>.
+
+<https://www.bunahub.com/products/sidamo> a schema:Product ;
+  schema:Description "Sidamo Coffee product" ;
+  schema:about [
+    a schema:Brand ;
+    schema:name "Sidamo" ;
+    schema:foundingDate "2000" ;
+    schema:foundingLocation [
+      a schema:Place ;
+      schema:name "Ethiopia"
+    ]
+  ] ;
+  schema:Manufacturer "Sidamo Coffee Farmers Cooperative Union" .

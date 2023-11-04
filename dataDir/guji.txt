@@ -1,0 +1,6 @@
+brand= Guji
+producer= Guji Highland Farm
+flavor= Bright and Citrusy
+price= 520.00 Birr
+url= https://www.bunahub.com/products/guji
+description= Guji Coffee is sourced from the highlands of Guji, Ethiopia. Grown by Guji Highland Farm, this coffee offers a delightful combination of bright and citrusy flavors. The unique microclimate of the region contributes to the coffee's exceptional taste. Guji Highland Farm takes pride in their meticulous cultivation methods and commitment to sustainable farming.

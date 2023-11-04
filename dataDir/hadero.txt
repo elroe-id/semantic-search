@@ -1,0 +1,6 @@
+brand= Hadero
+producer= Hadero Coffee Company
+flavor= Ethiopian Blend
+price= 450.00 Birr
+url= https://www.bunahub.com/products/hadero
+description= Hadero Coffee is a renowned Ethiopian coffee brand. With a rich history that dates back several decades, Hadero Coffee Company has been dedicated to producing high-quality coffee beans sourced from the lush coffee-growing regions of Ethiopia. Their Ethiopian Blend offers a harmonious combination of flavors, highlighting the unique and distinct characteristics of Ethiopian coffee.

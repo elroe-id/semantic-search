@@ -1,0 +1,14 @@
+@prefix schema: <http://schema.org/>.
+
+<https://www.bunahub.com/products/harar> a schema:Product ;
+  schema:Description "Harar Coffee product" ;
+  schema:about [
+    a schema:Brand ;
+    schema:name "Harar" ;
+    schema:foundingDate "2009" ;
+    schema:foundingLocation [
+      a schema:Place ;
+      schema:name "Ethiopia"
+    ]
+  ] ;
+  schema:Manufacturer "Harar Coffee Cooperative" .

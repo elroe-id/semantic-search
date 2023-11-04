@@ -1,0 +1,6 @@
+brand= Sidamo
+producer= Sidamo Coffee Farmers Cooperative Union
+flavor= Rich and Earthy
+price= 480.00 Birr
+url= https://www.bunahub.com/products/sidamo
+description= Sidamo Coffee, originating from the Sidamo region of Ethiopia, is known for its rich and earthy flavor profile. Produced by the Sidamo Coffee Farmers Cooperative Union, this coffee represents the dedication and expertise of the local farming community. The cooperative union focuses on sustainable farming practices and supports the livelihoods of coffee farmers.

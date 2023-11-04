@@ -1,0 +1,14 @@
+@prefix schema: <http://schema.org/>.
+
+<https://www.bunahub.com/products/yirgacheffe> a schema:Product ;
+  schema:Description "Yirgacheffe Coffee product" ;
+  schema:about [
+    a schema:Brand ;
+    schema:name "Yirgacheffe" ;
+    schema:foundingDate "1940" ;
+    schema:foundingLocation [
+      a schema:Place ;
+      schema:name "Ethiopia"
+    ]
+  ] ;
+  schema:Manufacturer "Yirgacheffe Coffee Farmers Cooperative Union" .

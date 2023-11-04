@@ -1,0 +1,6 @@
+brand= Moyee
+producer= Moyee Coffee
+flavor= Bold and Balanced
+price= 550.00 Birr
+url= https://www.bunahub.com/products/moyee
+description= Moyee Coffee is a revolutionary coffee brand committed to empowering coffee farmers in Ethiopia. With a mission to create a fairer and more sustainable coffee industry, Moyee works directly with Ethiopian farmers, ensuring fair prices and providing training and support. Their coffee offers a bold and balanced flavor profile, showcasing the exceptional craftsmanship and dedication of Ethiopian coffee growers.

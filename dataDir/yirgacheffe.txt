@@ -1,0 +1,6 @@
+brand= Yirgacheffe
+producer= Yirgacheffe Coffee Farmers Cooperative Union
+flavor= Fruity and Floral
+price= 550.00 Birr
+url= https://www.bunahub.com/products/yirgacheffe
+description= Yirgacheffe Coffee is sourced from the world-renowned Yirgacheffe region in Ethiopia. Produced by the Yirgacheffe Coffee Farmers Cooperative Union, this coffee showcases the exquisite flavors of Ethiopian coffee with its fruity and floral notes. The cooperative union ensures fair trade practices, empowering local farmers and promoting sustainable agriculture.

@@ -1,0 +1,14 @@
+@prefix schema: <http://schema.org/>.
+
+<https://www.bunahub.com/products/limu> a schema:Product ;
+  schema:Description "Limu Coffee product" ;
+  schema:about [
+    a schema:Brand ;
+    schema:name "Limu" ;
+    schema:foundingDate "2018" ;
+    schema:foundingLocation [
+      a schema:Place ;
+schema:name "Ethiopia"
+    ]
+  ] ;
+  schema:Manufacturer "Limu Coffee Plantation" .

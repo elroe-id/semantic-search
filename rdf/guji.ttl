@@ -1,0 +1,14 @@
+@prefix schema: <http://schema.org/>.
+
+<https://www.bunahub.com/products/guji> a schema:Product ;
+  schema:Description "Guji Coffee product" ;
+  schema:about [
+    a schema:Brand ;
+    schema:name "Guji" ;
+    schema:foundingDate "2013" ;
+    schema:foundingLocation [
+      a schema:Place ;
+      schema:name "Ethiopia"
+    ]
+  ] ;
+  schema:Manufacturer "Guji Highland Farm" .

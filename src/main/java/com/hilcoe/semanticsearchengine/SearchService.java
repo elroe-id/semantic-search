@@ -77,14 +77,13 @@ public class SearchService {
     }
 
     private void showQueryResultWithHighlight(IndexSearcher indexSearcher, TopDocs hits, Query query, String fieldName) throws IOException, InvalidTokenOffsetsException {
-        String res="";
         Analyzer analyzer = new StandardAnalyzer();
         for (int i=0; i<hits.scoreDocs.length; i++) {
             int docId = hits.scoreDocs[i].doc;
             Document doc = indexSearcher.doc(docId);
             String url = "<br><a href=\""+doc.get("url")+"\">"+doc.get("url")+"</a></br>";
             String tmpRes = url + getHighlightText(query,analyzer,fieldName,doc.get(fieldName));
-            results.add(tmpRes+getRichSnippets(doc,fieldName));
+            results.add(tmpRes+getRichSnippets(doc,"rs"));
         }
     }
 

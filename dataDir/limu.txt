@@ -1,0 +1,6 @@
+brand= Limu
+producer= Limu Coffee Plantation
+flavor= Smooth and Nutty
+price= 470.00 Birr
+url= https://www.bunahub.com/products/limu
+description= Limu Coffee hails from the fertile lands of the Limu region in Ethiopia. Cultivated by the Limu Coffee Plantation, this coffee is known for its smooth and nutty flavor profile. The plantation follows traditional farming techniques, allowing the natural flavors to shine through. Each cup of Limu Coffee reflects the rich heritage and craftsmanship of Ethiopian coffee.

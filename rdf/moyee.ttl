@@ -1,0 +1,14 @@
+@prefix schema: <http://schema.org/>.
+
+<https://www.bunahub.com/products/moyee> a schema:Product ;
+  schema:Description "Moyee Coffee product" ;
+  schema:about [
+    a schema:Brand ;
+    schema:name "Moyee" ;
+    schema:foundingDate "2018" ;
+    schema:foundingLocation [
+      a schema:Place ;
+      schema:name "Ethiopia"
+    ]
+  ] ;
+  schema:Manufacturer "Moyee Coffee" .

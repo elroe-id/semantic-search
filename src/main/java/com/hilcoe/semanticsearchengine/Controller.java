@@ -41,6 +41,7 @@ public class Controller {
                 String fieldName = "description";
                 List<String> searchResult = searchService.queryParserSearch(fieldName, queryString);
                 model.addAttribute("searchResult", searchResult);
+                model.addAttribute("queryString",queryString);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }

@@ -114,9 +114,9 @@ public class Indexer {
 
         doc.add(new TextField("brand", brand, Field.Store.YES));
         doc.add(new TextField("description", description, Field.Store.YES));
-        doc.add(new TextField("everything", brand+description, Field.Store.NO));
-        doc.add(new Field("producer", producer, fieldType));
-        doc.add(new Field("flavor", flavor, fieldType));
+        doc.add(new TextField("everything", brand+description+producer+flavor, Field.Store.NO));
+        doc.add(new TextField("producer", producer, Field.Store.YES));
+        doc.add(new TextField("flavor", flavor, Field.Store.YES));
         doc.add(new Field("price", price, fieldType));
         doc.add(new Field("url", url, fieldType));
 

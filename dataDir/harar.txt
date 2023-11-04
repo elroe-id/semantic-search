@@ -1,0 +1,6 @@
+brand= Harar
+producer= Harar Coffee Cooperative
+flavor= Bold and Spicy
+price= 530.00 Birr
+url= https://www.bunahub.com/products/harar
+description= Harar Coffee is sourced from the historic city of Harar in Ethiopia. Produced by the Harar Coffee Cooperative, this coffee boasts a bold and spicy flavor profile. The unique processing method, involving dry processing and sun-drying, contributes to its distinctive taste. The Harar Coffee Cooperative supports local farmers and preserves the traditional coffee production methods of the region.
